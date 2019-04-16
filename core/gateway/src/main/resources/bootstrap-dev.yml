@@ -21,3 +21,25 @@ spring:
                           args:
                               name: adminHystrixCommand
                               fallbackUri: forward:/hystrixTimeout
+                        - name: Retry
+                          args:
+                              retries: 1 # 只再重试一次
+                              series: SERVER_ERROR # 5XX 的错误才重试
+                              methods: GET
+
+                -   id: auth
+                    uri: lb://auth
+                    predicates:
+                        - Path=/auth/**
+                    filters:
+                        - RewritePath=/auth/(?<path>.*), /$\{path}
+                        -   name: Hystrix
+                            args:
+                                name: adminHystrixCommand
+                                fallbackUri: forward:/hystrixTimeout
+                        -   name: Retry
+                            args:
+                                retries: 1 # 只再重试一次
+                                series: SERVER_ERROR # 5XX 的错误才重试
+                                methods: GET
+

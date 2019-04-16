@@ -21,9 +21,9 @@ public class HystrixErrorHandler {
     @HystrixCommand(commandKey = "adminHystrixCommand", commandProperties = {
             @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "30000")}
     )
-    public Map userHystrixCommand() {
+    public Map adminHystrixCommand() {
         Map<String, String> map = new HashMap<>();
-        map.put("message", "gateway触发了userHystrixCommand");
+        map.put("message", "gateway触发了adminHystrixCommand");
         return map;
     }
 }
