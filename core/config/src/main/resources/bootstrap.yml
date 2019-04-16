@@ -1,0 +1,17 @@
+server:
+    port: 9002
+
+spring:
+    application:
+        name: config
+    profiles:
+        active: dev
+    cloud:
+        config:
+            server:
+                git:
+                    uri: http://47.105.108.6/fengfan/cloud_config.git   # 配置git仓库的地址
+                    search-paths: magician                             # git仓库地址下的相对地址，可以配置多个，用,分割。
+                    username: fengfan
+                    password: ff123456
+            label: master

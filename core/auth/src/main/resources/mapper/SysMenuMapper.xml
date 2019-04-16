@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.redsoft.magician.core.auth.mapper.SysMenuMapper">
+
+	<select id="getById" resultType="cn.redsoft.magician.core.common.entity.SysMenu">
+		select *
+		from sys_menu
+		where id = #{id}
+	</select>
+
+	<select id="getByRoleId" resultType="cn.redsoft.magician.core.common.entity.SysMenu">
+		select m.*
+		from sys_role_menu rm
+				 left join sys_menu m on rm.menu_id = m.id
+		where rm.role_id = #{roleId}
+	</select>
+
+	<select id="getByUserId" resultType="cn.redsoft.magician.core.common.entity.SysMenu">
+		select DISTINCT m.*
+		from sys_user_role ur
+				 left join sys_role_menu rm on ur.role_id = rm.role_id
+				 left join sys_menu m on m.id = rm.menu_id
+		where ur.user_id = #{userId}
+	</select>
+
+	<select id="getOneUrlAndRole" resultType="cn.redsoft.magician.core.common.entity.SysMenu">
+		select
+			m.url,
+			GROUP_CONCAT(r.code SEPARATOR ',') as ofRoles
+		from
+			sys_menu m
+				left join sys_role_menu rm on m.id = rm.menu_id
+				left join sys_role r on rm.role_id = r.id
+		where m.visible = '0'
+		and m.url = #{url}
+
+	</select>
+
+</mapper>
+
+

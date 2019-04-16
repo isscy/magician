@@ -1,0 +1,25 @@
+server:
+    port: 8888
+
+spring:
+    application:
+        name: gateway
+    profiles:
+        active: dev
+    cloud:
+        config:
+            name: ${spring.application.name}, redis, db
+            profile: ${spring.profiles.active}
+            discovery:
+                service-id: config
+                enabled: true
+            label: master
+
+
+
+
+logging:
+    level:
+        org.springframework.security: DEBUG
+        cn.redsoft.magician.core.gateway: DEBUG
+

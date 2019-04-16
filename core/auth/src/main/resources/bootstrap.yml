@@ -1,0 +1,37 @@
+server:
+    port: 9005
+
+spring:
+    application:
+        name: auth
+    profiles:
+        active: dev
+    cloud:
+        config:
+            name: ${spring.application.name}, redis, db
+            profile: ${spring.profiles.active}
+            discovery:
+                service-id: config
+                enabled: true
+            label: master
+
+
+
+
+mybatis-plus:
+    typeAliasesPackage: cn.redsoft.magician.core.auth.entity, cn.redsoft.magician.core.common.entity
+    mapperLocations: classpath*:mapper/*.xml
+    configuration:
+        map-underscore-to-camel-case: true
+
+
+logging:
+    level:
+        org.springframework.security: DEBUG
+        cn.redsoft.magician.core.auth.mapper: DEBUG
+oauth2:
+    token:
+        secret: Jdk_18.com
+        expired: 3600
+        refresh-expired: 7200000
+        

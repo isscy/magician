@@ -1,0 +1,23 @@
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: http://localhost:9001/eureka/
+
+spring:
+    cloud:
+        gateway:
+            discovery:
+                locator:
+                    enabled: true
+            default-filters:
+            routes:
+                -   id: admin
+                    uri: lb://admin
+                    predicates:
+                        - Path=/admin/**
+                    filters:
+                        - RewritePath=/admin/(?<path>.*), /$\{path}
+                        - name: Hystrix
+                          args:
+                              name: adminHystrixCommand
+                              fallbackUri: forward:/hystrixTimeout

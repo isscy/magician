@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  cn.redsoft.magician.core.common.config.RedisConfig,\
+  cn.redsoft.magician.core.common.utils.RedisUtil

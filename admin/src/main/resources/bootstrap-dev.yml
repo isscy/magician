@@ -1,0 +1,22 @@
+
+eureka:
+    client:
+        serviceUrl:
+            defaultZone: http://localhost:9001/eureka/
+
+            
+            
+            
+security:
+    oauth2:
+        client:
+            clientId: microservice
+            clientSecret: micro-service
+            access-token-uri: http://localhost:9002/oauth/token   # 以后换成路由的
+            user-authorization-uri: http://localhost:9002/oauth/authorize
+        resource:
+            id: admin
+            user-info-uri: http://localhost:9002/userCenter/user # 使用auth-server进行认证授权，
+            prefer-token-info: false
+#            jwt:
+#                key-uri: http://localhost:9002/oauth/token_key
