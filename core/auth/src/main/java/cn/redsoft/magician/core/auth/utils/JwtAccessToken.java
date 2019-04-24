@@ -35,6 +35,7 @@ public class JwtAccessToken extends JwtAccessTokenConverter {
         SysUser sysUser = ((BaseUserDetail) authentication.getPrincipal()).getSysUser();
         sysUser.setPassword("hello world");
         defaultOAuth2AccessToken.getAdditionalInformation().put(SecurityConstant.USER_INFO, sysUser);
+        defaultOAuth2AccessToken.getAdditionalInformation().put("userId", sysUser.getId());
 
         return super.enhance(defaultOAuth2AccessToken, authentication);
     }

@@ -2,6 +2,7 @@ package cn.redsoft.magician.core.common.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.Cursor;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,16 @@ public final class RedisUtil {
     private RedisTemplate<String, Object> defaultRedisTemplate;
 
 
+    public boolean hasKey(String key) {
+        try {
+            return defaultRedisTemplate.hasKey(key);
+        } catch (Exception e) {
+            return false;
+        }
+
+    }
+
+
     /**
      *  ----------------------------------- Map -------------------------------------------
      */
@@ -38,8 +49,10 @@ public final class RedisUtil {
     /**
      * 获取hashKey对应的所有键值
      */
-    public Map<Object, Object> hmget(String key) {
-        return defaultRedisTemplate.opsForHash().entries(key);
+    public Map<String, Object> hmget(String key) {
+        //return defaultRedisTemplate.opsForHash().entries(key);
+        HashOperations<String, String, Object> hps = defaultRedisTemplate.opsForHash();
+        return hps.entries(key);
     }
 
     /**
@@ -81,12 +94,12 @@ public final class RedisUtil {
 
     /**
      * 获取map 里所有的 key 在大数据量下用
-     *  TODO 还未测试啊
+     * TODO 20190422 -> 还未测试啊
      */
     public Set<String> hscan(String key) {
         Set<String> result = new HashSet<>();
         Cursor<Map.Entry<Object, Object>> curosr = defaultRedisTemplate.opsForHash().scan(key, ScanOptions.NONE);
-        while(curosr.hasNext()){
+        while (curosr.hasNext()) {
             Map.Entry<Object, Object> entry = curosr.next();
             result.add(entry.getKey().toString());
         }

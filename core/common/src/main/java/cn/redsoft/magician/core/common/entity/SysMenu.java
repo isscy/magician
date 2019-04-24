@@ -13,6 +13,7 @@ public class SysMenu {
     private String parentId;
     private int level;
     private String url;
+    private String method;
     private int orderNum;
     private String perms;
     private String icon;

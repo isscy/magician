@@ -39,8 +39,6 @@ public class AccessTokenUtil {
 
     /**
      * 从token获取用户信息
-     *
-     * @return
      */
     public SysUser getUserInfo() {
         return (SysUser) getAccessToken().getAdditionalInformation().get(SecurityConstant.USER_INFO);

@@ -21,4 +21,6 @@ public interface RedisConstant {
      */
     String KEY_URL_ROLES = "urlRoles";
 
+    String KEY_UNCHECK_URL = "unCheckUrl";
+
 }

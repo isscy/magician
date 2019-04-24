@@ -62,6 +62,8 @@ public interface SecurityConstant {
      */
     String REFRESH_TOKEN = "refresh_token";
 
+    String KEY_HANDLESERVER = "handle-server";
+
 
 
 }

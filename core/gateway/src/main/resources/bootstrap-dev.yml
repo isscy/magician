@@ -10,28 +10,29 @@ spring:
                 locator:
                     enabled: true
             default-filters:
-            routes:
+            routes:   # 此处 id 必须和URL前缀一样 否则会鉴权出错的
                 -   id: admin
                     uri: lb://admin
                     predicates:
                         - Path=/admin/**
                     filters:
                         - RewritePath=/admin/(?<path>.*), /$\{path}
-                        - name: Hystrix
-                          args:
-                              name: adminHystrixCommand
-                              fallbackUri: forward:/hystrixTimeout
-                        - name: Retry
-                          args:
-                              retries: 1 # 只再重试一次
-                              series: SERVER_ERROR # 5XX 的错误才重试
-                              methods: GET
-
+                        -   name: Hystrix
+                            args:
+                                name: adminHystrixCommand
+                                fallbackUri: forward:/hystrixTimeout
+                        -   name: Retry
+                            args:
+                                retries: 1 # 只再重试一次
+                                series: SERVER_ERROR # 5XX 的错误才重试
+                                methods: GET
+                
                 -   id: auth
                     uri: lb://auth
                     predicates:
                         - Path=/auth/**
                     filters:
+                        - AddRequestHeader=handle-server, auth
                         - RewritePath=/auth/(?<path>.*), /$\{path}
                         -   name: Hystrix
                             args:
@@ -43,3 +44,18 @@ spring:
                                 series: SERVER_ERROR # 5XX 的错误才重试
                                 methods: GET
 
+# TODO 单独把下面的抽出来 一个配置文件
+feign:
+    client:
+        config:
+            default:
+                connectTimeout: 60000
+                readTimeout: 60000
+                loggerLevel: basic
+
+ribbon:
+    eager-load:
+        enabled: true
+        clients: auth, admin
+
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 60000

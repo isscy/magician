@@ -70,4 +70,8 @@ public class R {
         Gson gson = new GsonBuilder().setDateFormat(format).create();
         return gson.toJson(this);
     }
+
+    public boolean isSuccess(){
+        return this.code == SUCCESS_CODE;
+    }
 }
